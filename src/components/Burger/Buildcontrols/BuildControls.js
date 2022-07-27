@@ -20,6 +20,7 @@ const buildControls = (props) => {
             ingLabel={ctrl.ingLabel}
             add={() => props.ingredientAdd(ctrl.type)}
             remove={() => props.ingredientRemove(ctrl.type)}
+            disabled = {props.disabledOrNot[ctrl.type]}
           />
         );
       })}
