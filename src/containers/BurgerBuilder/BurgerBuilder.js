@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import Aux from "../../higherOrderComponents/Auxilliary";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/Buildcontrols/BuildControls";
+import Modal from "../../components/UI/Modal/Modal";
+import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 
 const INGREDIENT_PRICES = {
   Cheese: 220,
@@ -19,8 +21,23 @@ class BurgerBuilder extends Component {
       Salad: 0,
       Meat: 0,
     },
-    totalPrice: 1100,
+    totalPrice: 1100, // least burger price amt
+    purchasable: false,
   };
+
+  updatePurchaseState(ingredients) {
+    const sum = Object.keys(ingredients)
+      .map((ingKey) => {
+        return ingredients[ingKey];
+      })
+      .reduce((sum, el) => {
+        return sum + el;
+      }, 0);
+
+    this.setState({
+      purchasable: sum > 0,
+    });
+  }
 
   addIngredientHandler = (type) => {
     const oldCount = this.state.ingredients[type];
@@ -37,6 +54,8 @@ class BurgerBuilder extends Component {
       ingredients: updatedIngredients,
       totalPrice: newPrice,
     });
+
+    this.updatePurchaseState(updatedIngredients);
   };
 
   removeIngredientHandler = (type) => {
@@ -58,6 +77,8 @@ class BurgerBuilder extends Component {
       ingredients: updatedIngredients,
       totalPrice: newPrice,
     });
+
+    this.updatePurchaseState(updatedIngredients);
   };
 
   render() {
@@ -71,11 +92,16 @@ class BurgerBuilder extends Component {
 
     return (
       <Aux>
+        <Modal>
+          <OrderSummary ingredients= {this.state.ingredients}/>
+        </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
           ingredientAdd={this.addIngredientHandler}
           ingredientRemove={this.removeIngredientHandler}
-          disabledOrNot = {disableInfoObj}
+          disabledOrNot={disableInfoObj}
+          purchasable={this.state.purchasable}
+          price={this.state.totalPrice}
         />
       </Aux>
     );
