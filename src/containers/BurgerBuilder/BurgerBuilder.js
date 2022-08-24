@@ -27,13 +27,16 @@ class BurgerBuilder extends Component {
   };
   componentDidMount() {
     axios
-      .get("https://burgerapk-bc95b-default-rtdb.firebaseio.com/ingredients")
+      .get(
+        "https://burgerapk-bc95b-default-rtdb.firebaseio.com/ingredients.json"
+      )
       .then((response) => {
         console.log(response);
         this.setState({
           ingredients: response.data,
         });
-      });
+      })
+      .catch((error) => {});
   }
 
   updatePurchaseState(ingredients) {
