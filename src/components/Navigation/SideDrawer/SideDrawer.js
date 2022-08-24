@@ -19,8 +19,8 @@ const sideDrawer = (props) => {
       <div className={attachedClasses.join(" ")}>
         <div className={classes.Logo}>
           <Logo />
-          <div className={classes.CancelBtn} onClick={props.cancelBtn}>
-            <div className={classes.svgWrrapper}>
+          <div className={classes.CancelBtn}>
+            <div className={classes.svgWrrapper} onClick={props.cancelBtn}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
